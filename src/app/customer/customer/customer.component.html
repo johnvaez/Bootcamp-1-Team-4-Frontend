@@ -1,0 +1,60 @@
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4" style="font-size: 40px;margin-top: 10px;">Te damos la bienvenida</h1>
+        <hr class="my-4">
+        <p class="lead"><b>Por favor ingresa los datos solicitados.</b></p>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label>Seleccione documento</label>
+                        <select class="form-select" formControlName="identityType"
+                            [ngClass]="{ 'is-invalid': submitted && validate.identityType.errors }">
+                            <option value="Cedula">Cédula de Ciudadanía</option>
+                            <option value="D">Carné diplomático</option>
+                            <option value="E">Cédula de extranjería</option>
+                            <option value="P">Pasaporte</option>
+                            <option value="T">Tarjeta de identidad</option>
+                            <option value="N">NIT</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Número de Identificación</label>
+                        <input type="text" class="form-control" formControlName="identityNumber"
+                            [ngClass]="{ 'is-invalid': submitted && validate.identityNumber.errors }"
+                            onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn"
+                            style="float: right;background-color: #ed0722;color: #fff">Consultar</button>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <br />
+
+                    <div class="alert alert-danger" role="alert" *ngIf="error">
+                        La información suministrada es incorrecta
+                    </div>
+
+                    <div class="card" *ngIf="show">
+                        <div class="card-header">
+                            Estado <span class="{{ customer.isForbidden ? 'badge bg-danger': 'badge bg-success' }}">{{
+                                customer.isForbidden ? 'Negativo': 'Positivo' }}</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ customer.costumer.name }} {{ customer.costumer.lastname }}</h5>
+                            <p class="card-text">
+                                Documento: {{ customer.costumer.documentType }} <br />
+                                Identificación: {{ customer.costumer.documentNumber }} <br />
+                                Email: {{ customer.costumer.email }} <br />
+                                Teléfono: {{ customer.costumer.cellphone }} <br />
+                                Fecha de nacimiento: {{ customer.costumer.birthDate }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
